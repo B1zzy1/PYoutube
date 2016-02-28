@@ -2,6 +2,7 @@
 Downloading YouTube videos mp3/mp4
 ## Requirements
 * requests
+* argparse
 * tqdm
 * beautifulsoup4
 
