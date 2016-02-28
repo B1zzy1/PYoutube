@@ -13,7 +13,9 @@ Download YouTube Video: By Willian Lopes
 
 optional arguments:
   -h, --help            show this help message and exit
+  
   -u URL, --url URL     Specify url
+  
   -f FORMAT, --format FORMAT
                         Specify format mp3 or mp4
   -t TITLE, --title TITLE
