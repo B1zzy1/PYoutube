@@ -37,11 +37,11 @@ if args.url and args.format:
 			for i in args.end.split(":"):
 				en.append(int(i))
 			args.end = timedelta(hours=en[0],minutes=en[1], seconds=en[2]).total_seconds()
-		baixar = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
-		if baixar.status_code == 200:
+		down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
+		if down.status_code == 200:
 			filename = "%s.%s" % (title,args.format)
 			with open(filename, "wb") as handle:
-			    for data in tqdm(baixar.iter_content()):
+			    for data in tqdm(down.iter_content()):
 				handle.write(data)
 		else:
 			print "[-] Error, try again"
