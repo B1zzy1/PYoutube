@@ -8,8 +8,8 @@ parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By W
 parser.add_argument("-u","--url",required=True ,help="Specify url")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
-parser.add_argument("-s", "--start",required=False,help="Specify start video 00:00:00",default=False)
-parser.add_argument("-e", "--end",required=False,help="Specify end video 00:00:00",default=False)
+parser.add_argument("-s", "--start",required=False,help="Specify start time 00:00:00",default=False)
+parser.add_argument("-e", "--end",required=False,help="Specify end time 00:00:00",default=False)
 args = parser.parse_args()
 if args.url and args.format:
 	if args.format == "mp3" or args.format == "mp4":
