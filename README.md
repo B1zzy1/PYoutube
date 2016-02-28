@@ -1,5 +1,5 @@
 # PYoutube
-Download YouTube Video mp3/mp4
+Downloading YouTube videos mp3/mp4
 ## Requirements
 * requests
 * tqdm
