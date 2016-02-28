@@ -4,7 +4,7 @@ import requests,argparse
 from datetime import timedelta
 from bs4 import BeautifulSoup
 
-parser = argparse.ArgumentParser(description = 'Download YouTube Video: By Willian Lopes')
+parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By Willian Lopes')
 parser.add_argument("-u","--url",required=True ,help="Specify url")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
