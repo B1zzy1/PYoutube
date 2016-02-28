@@ -13,38 +13,42 @@ parser.add_argument("-e", "--end",required=False,help="Specify end video 00:00:0
 args = parser.parse_args()
 if args.url and args.format:
 	if args.format == "mp3" or args.format == "mp4":
-		if "https://" not in args.url:
-				args.url = "http://%s" % (args.url)
-		if "youtu.be" in args.url:
-			mid = args.url.split("/")[3]
+		if "youtu" in args.url:
+			if "https://" not in args.url:
+					args.url = "http://%s" % (args.url)
+			if "youtu.be" in args.url:
+				mid = args.url.split("/")[3]
+			else:
+				mid = args.url.split("=")[1]
+			if args.title:
+				title = args.title
+			else:
+				r = requests.get(args.url)
+				soup = BeautifulSoup(r.text, "html.parser")
+				ti = soup.find('title').text
+				title = ti[:-10]
+			print "Downloading :", title
+			if args.start:
+				star=[]
+				for i in args.start.split(":"):
+					star.append(int(i))
+				args.start = timedelta(hours=star[0],minutes=star[1], seconds=star[2]).total_seconds()
+			if args.end:
+				en=[]
+				for i in args.end.split(":"):
+					en.append(int(i))
+				args.end = timedelta(hours=en[0],minutes=en[1], seconds=en[2]).total_seconds()
+			down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
+			if down.status_code == 200:
+				filename = "%s.%s" % (title,args.format)
+				with open(filename, "wb") as handle:
+				    for data in tqdm(down.iter_content()):
+					handle.write(data)
+			else:
+				print "[-] Error, try again"
 		else:
-			mid = args.url.split("=")[1]
-		if args.title:
-			title = args.title
-		else:
-			r = requests.get(args.url)
-			soup = BeautifulSoup(r.text, "html.parser")
-			ti = soup.find('title').text
-			title = ti[:-10]
-		print "Downloading :", title
-		if args.start:
-			star=[]
-			for i in args.start.split(":"):
-				star.append(int(i))
-			args.start = timedelta(hours=star[0],minutes=star[1], seconds=star[2]).total_seconds()
-		if args.end:
-			en=[]
-			for i in args.end.split(":"):
-				en.append(int(i))
-			args.end = timedelta(hours=en[0],minutes=en[1], seconds=en[2]).total_seconds()
-		down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
-		if down.status_code == 200:
-			filename = "%s.%s" % (title,args.format)
-			with open(filename, "wb") as handle:
-			    for data in tqdm(down.iter_content()):
-				handle.write(data)
-		else:
-			print "[-] Error, try again"
+			print "[-] Error, invalid URL"
+			exit(0)
 	else:
 		print parser.usage
 		exit(0)
