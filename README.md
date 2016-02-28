@@ -26,6 +26,6 @@ optional arguments:
                         Specify title
                         
   -s START, --start START
-                        Specify start video 00:00:00
+                        Specify start time 00:00:00
                         
-  -e END, --end END     Specify end video 00:00:00
+  -e END, --end END     Specify end time 00:00:00
