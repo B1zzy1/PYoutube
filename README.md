@@ -10,7 +10,7 @@ Downloading YouTube videos mp3/mp4
 ## Usage:
 usage: PYoutube.py [-h] -u URL -f FORMAT [-t TITLE] [-s START] [-e END]
 
-Download YouTube Video: By Willian Lopes
+Downloading YouTube videos: By Willian Lopes
 
 optional arguments:
 
