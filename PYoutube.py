@@ -10,7 +10,7 @@ parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or m
 parser.add_argument("-t","--title",required=False,help="Specify title")
 parser.add_argument("-s", "--start",required=False,help="Specify start time 00:00:00",default=False)
 parser.add_argument("-e", "--end",required=False,help="Specify end time 00:00:00",default=False)
-parser.add_argument("-o", "--output",required=False,help="Specify a folder to save the files",default=False)
+parser.add_argument("-o", "--output",required=False,help="Specify a folder to save the files")
 args = parser.parse_args()
 url= args.url
 def down(url):
