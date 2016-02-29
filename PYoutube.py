@@ -3,15 +3,17 @@ from tqdm import tqdm
 import requests,argparse
 from datetime import timedelta
 from bs4 import BeautifulSoup
-
 parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By Willian Lopes')
-parser.add_argument("-u","--url",required=True ,help="Specify url")
+parser.add_argument("-u","--url",required=False ,help="Specify url")
+parser.add_argument("-l","--list",required=False ,help="Specify a list of URLs 'list.txt'")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
 parser.add_argument("-s", "--start",required=False,help="Specify start time 00:00:00",default=False)
 parser.add_argument("-e", "--end",required=False,help="Specify end time 00:00:00",default=False)
 args = parser.parse_args()
-if args.url and args.format:
+url= args.url
+def down(url):
+	args.url = url
 	if args.format == "mp3" or args.format == "mp4":
 		if "youtu" in args.url:
 			if "https://" not in args.url:
@@ -52,6 +54,15 @@ if args.url and args.format:
 	else:
 		print parser.usage
 		exit(0)
+
+if args.list:
+	with open(args.list, "r") as listvid:
+	    for url in listvid:
+		url = url.strip("\n")
+		down(url)
+elif args.url:
+	down(url)
 else:
 	print parser.usage
 	exit(0)
+
