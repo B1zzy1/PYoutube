@@ -9,7 +9,7 @@ Downloading YouTube videos mp3/mp4
 ### pip install -r requirements.txt
 
 ## Usage:
-usage: PYoutube.py [-h] -u URL [-l LIST] -f FORMAT [-t TITLE] [-s START] [-e END] [-o OUT]
+usage: PYoutube.py [-h] -u URL [-l LIST] -f FORMAT [-t TITLE] [-s START] [-e END] [-o OUTPUT]
 
 Downloading YouTube videos: By Willian Lopes
 
@@ -32,4 +32,4 @@ optional arguments:
                         
   -e END, --end END     Specify end time 00:00:00
   
-  -o OUT, --output OUT  Specify a folder to save the files
+  -o OUTPUT, --output OUTPUT  Specify a folder to save the files
