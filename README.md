@@ -9,7 +9,7 @@ Downloading YouTube videos mp3/mp4
 ### pip install -r requirements.txt
 
 ## Usage:
-usage: PYoutube.py [-h] [-u URL] [-l LIST] -f FORMAT [-t TITLE] [-s START] [-e END] [-o OUT]
+usage: PYoutube.py [-h] -u URL [-l LIST] -f FORMAT [-t TITLE] [-s START] [-e END] [-o OUT]
 
 Downloading YouTube videos: By Willian Lopes
 
