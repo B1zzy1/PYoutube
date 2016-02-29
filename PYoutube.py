@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from tqdm import tqdm
-import requests,argparse
+import requests,argparse,os
 from datetime import timedelta
 from bs4 import BeautifulSoup
 parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By Willian Lopes')
 parser.add_argument("-u","--url",required=False ,help="Specify url")
-parser.add_argument("-l","--list",required=False ,help="Specify a list of URLs 'video.txt'")
+parser.add_argument("-l","--list",required=False ,help="Specify a list of URLs 'list.txt'")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
 parser.add_argument("-s", "--start",required=False,help="Specify start time 00:00:00",default=False)
 parser.add_argument("-e", "--end",required=False,help="Specify end time 00:00:00",default=False)
+parser.add_argument("-o", "--output",required=False,help="Specify a folder to save the files",default=False)
 args = parser.parse_args()
 url= args.url
 def down(url):
@@ -42,7 +43,13 @@ def down(url):
 				args.end = timedelta(hours=en[0],minutes=en[1], seconds=en[2]).total_seconds()
 			down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
 			if down.status_code == 200:
-				filename = "%s.%s" % (title,args.format)
+				if args.output:
+					if os.path.exists(args.output):
+						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title,args.format)
+					else:
+						print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
+				else:
+					filename = "%s.%s" % (title,args.format)
 				with open(filename, "wb") as handle:
 				    for data in tqdm(down.iter_content()):
 					handle.write(data)
