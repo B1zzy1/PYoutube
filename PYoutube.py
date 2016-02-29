@@ -24,12 +24,12 @@ def down(url):
 			else:
 				mid = args.url.split("=")[1]
 			if args.title:
-				title = args.title
+				title = args.title.encode('utf8')
 			else:
 				r = requests.get(args.url)
 				soup = BeautifulSoup(r.text, "html.parser")
 				ti = soup.find('title').text
-				title = ti[:-10]
+				title = ti[:-10].encode('utf8')
 			print "Downloading :", title
 			if args.start:
 				star=[]
@@ -45,11 +45,11 @@ def down(url):
 			if down.status_code == 200:
 				if args.output:
 					if os.path.exists(args.output):
-						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title.decode('utf-8'),args.format)
+						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title.decode('utf-8').replace("/",""),args.format)
 					else:
 						print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
 				else:
-					filename = "%s.%s" % (title.decode('utf-8'),args.format)
+					filename = "%s.%s" % (title.decode('utf-8').replace("/",""),args.format)
 				with open(filename, "wb") as handle:
 				    for data in tqdm(down.iter_content()):
 					handle.write(data)
