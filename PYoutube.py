@@ -45,11 +45,11 @@ def down(url):
 			if down.status_code == 200:
 				if args.output:
 					if os.path.exists(args.output):
-						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title,args.format)
+						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title.decode('utf-8'),args.format)
 					else:
 						print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
 				else:
-					filename = "%s.%s" % (title,args.format)
+					filename = "%s.%s" % (title.decode('utf-8'),args.format)
 				with open(filename, "wb") as handle:
 				    for data in tqdm(down.iter_content()):
 					handle.write(data)
