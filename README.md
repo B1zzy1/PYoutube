@@ -19,7 +19,7 @@ optional arguments:
   
   -u URL, --url URL     Specify url
   
-  -pl PLAYLIST, --playlist PLAYLIST
+  -p PLAYLIST, --playlist PLAYLIST
                         Specify a playlist URL EX: 'http://www.youtube.com/playlist?list=PLC800B9699743BD19'
 
   -l LIST, --list LIST  Specify a list of URLs 'video.txt'"
