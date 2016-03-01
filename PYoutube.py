@@ -5,7 +5,7 @@ from datetime import timedelta
 from bs4 import BeautifulSoup
 parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By Willian Lopes')
 parser.add_argument("-u","--url",required=False ,help="Specify url")
-parser.add_argument("-pl","--playlist",required=False ,help="Specify a playlist URL EX: 'http://www.youtube.com/playlist?list=PLC800B9699743BD19'")
+parser.add_argument("-p","--playlist",required=False ,help="Specify a playlist URL EX: 'http://www.youtube.com/playlist?list=PLC800B9699743BD19'")
 parser.add_argument("-l","--list",required=False ,help="Specify a list of URLs EX: 'list.txt'")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
