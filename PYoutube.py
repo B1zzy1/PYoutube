@@ -5,7 +5,7 @@ from datetime import timedelta
 from bs4 import BeautifulSoup
 parser = argparse.ArgumentParser(description = 'Downloading YouTube videos: By Willian Lopes')
 parser.add_argument("-u","--url",required=False ,help="Specify url")
-parser.add_argument("-p","--playlist",required=False ,help="Specify a playlist URL EX: 'http://www.youtube.com/playlist?list=PLC800B9699743BD19'")
+parser.add_argument("-p","--playlist",required=False ,help="Specify a playlist URL EX: 'http://www.youtube.com/playlist?list=PLC800B9699743BD19' ")
 parser.add_argument("-l","--list",required=False ,help="Specify a list of URLs EX: 'list.txt'")
 parser.add_argument("-f", "--format",required=True,help="Specify format mp3 or mp4")
 parser.add_argument("-t","--title",required=False,help="Specify title")
@@ -52,11 +52,13 @@ def down(url,titles):
 						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title.decode('utf-8').replace("/",""),args.format)
 					else:
 						print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
+						exit(0)
 				else:
 					filename = "%s.%s" % (title.decode('utf-8').replace("/",""),args.format)
 				with open(filename, "wb") as handle:
 				    for data in tqdm(down.iter_content()):
 					handle.write(data)
+				print "Successfully concluded"
 			else:
 				print "[-] Error, try again"
 		else:
@@ -66,27 +68,35 @@ def down(url,titles):
 		print parser.usage
 		exit(0)
 
-if args.list:
-	with open(args.list, "r") as listvid:
-	    for url in listvid:
-		url = url.strip("\n")
+try:
+	if args.list:
+		with open(args.list, "r") as listvid:
+		    for url in listvid:
+			url = url.strip("\n")
+			down(url,False)
+	elif args.url:
 		down(url,False)
-elif args.url:
-	down(url,False)
 
-elif args.playlist:
-	if "/playlist?list=" in args.playlist:
-		rec = "https://api.import.io/store/connector/f4d61ed2-3d40-4371-84cf-fb399b008c37/_query?input=webpage/url:%s&_apikey=b66cfe87eb494b759b4aa5b42ac0f4c57f5b303285e7d8670e381dbfa5a9d8c4cb84023448214d875aa268edaeef07dc6b86ba192a44be472114b2741b1606b13e122e59ff728d051fb9ebdbda59d058" %(args.playlist)
-		r = requests.get(rec)
-		cap = r.json()
-		for i in cap['results']:
-			titles = i['videotitle_link/_text'] 
-			url = "https://www.youtube.com/watch?v=%s" % (i['videotitle_link/_source'].split("=")[1].replace("&index",""))
-			down(url,titles)
+	elif args.playlist:
+		if "/playlist?list=" in args.playlist:
+			rec = "https://api.import.io/store/connector/f4d61ed2-3d40-4371-84cf-fb399b008c37/_query?input=webpage/url:%s&_apikey=b66cfe87eb494b759b4aa5b42ac0f4c57f5b303285e7d8670e381dbfa5a9d8c4cb84023448214d875aa268edaeef07dc6b86ba192a44be472114b2741b1606b13e122e59ff728d051fb9ebdbda59d058" %(args.playlist)
+			r = requests.get(rec)
+			cap = r.json()
+			for i in cap['results']:
+				qnt = i['videotitle_link'].split('index=')[1]
+			cont = 0
+			for i in cap['results']:
+				titles = i['videotitle_link/_text'] 
+				url = "https://www.youtube.com/watch?v=%s" % (i['videotitle_link/_source'].split("=")[1].replace("&index",""))
+				cont = cont+1
+				print "%s/%s"%(str(cont),str(qnt))
+				down(url,titles)
+		else:
+			print parser.parse_args(['-p'])
+			exit(0)
 	else:
 		print parser.usage
 		exit(0)
-else:
-	print parser.usage
+except KeyboardInterrupt:
+	print "\nExit"
 	exit(0)
-
