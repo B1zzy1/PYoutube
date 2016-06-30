@@ -33,7 +33,7 @@ def down(url,titles):
 					r = requests.get(args.url)
 					soup = BeautifulSoup(r.text, "html.parser")
 					ti = soup.find('title').text
-					title = ti[:-10].encode('utf8')
+					title = ti[:-10].encode('utf8').decode('utf-8').replace('/',"").replace("\\","").replace("|","").replace('"',"").replace("'","")
 			print "Downloading :", title
 			if args.start:
 				star=[]
@@ -45,22 +45,25 @@ def down(url,titles):
 				for i in args.end.split(":"):
 					en.append(int(i))
 				args.end = timedelta(hours=en[0],minutes=en[1], seconds=en[2]).total_seconds()
-			down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
-			if down.status_code == 200:
-				if args.output:
-					if os.path.exists(args.output):
-						filename = "%s/%s.%s" % (args.output.decode('utf-8'),title.decode('utf-8').replace("/",""),args.format)
+			try:
+				down = requests.post("https://dvr.yout.com/"+args.format, data={'id_video': mid, 'video_id': mid,'title': title, 'format' : args.format, 'start_time': args.start,'end_time': args.end})
+				if down.status_code == 200:
+					if args.output:
+						if os.path.exists(args.output):
+							filename = "%s/%s.%s" % (args.output.decode('utf-8'),title,args.format)
+						else:
+							print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
+							exit(0)
 					else:
-						print "[-] The folder '%s' does not exist " % (args.output.decode('utf-8'))
-						exit(0)
+						filename = "%s.%s" % (title,args.format)
+					with open(filename, "wb") as handle:
+						for data in tqdm(down.iter_content()):
+							handle.write(data)
+					print "Successfully concluded"
 				else:
-					filename = "%s.%s" % (title.decode('utf-8').replace("/",""),args.format)
-				with open(filename, "wb") as handle:
-				    for data in tqdm(down.iter_content()):
-					handle.write(data)
-				print "Successfully concluded"
-			else:
-				print "[-] Error, try again"
+					print "[-] Error, try again"
+			except:
+				print "[-] Error, Download %s" % (title)
 		else:
 			print "[-] Error, invalid URL"
 			exit(0)
@@ -100,3 +103,5 @@ try:
 except KeyboardInterrupt:
 	print "\nExit"
 	exit(0)
+
+
