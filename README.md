@@ -36,3 +36,5 @@ optional arguments:
   -e END, --end END     Specify end time 00:00:00
   
   -o OUTPUT, --output OUTPUT  Specify a folder to save the files
+
+;)
